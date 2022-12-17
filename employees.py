@@ -2,6 +2,7 @@
 from productivity import ProductivitySystem, ManagerRole, SecretaryRole, SalesRole, FactoryRole
 from hr import PayrollSystem
 from contacts import AddressBook
+from representations import AsDictionaryMixin
 
 class EmployeeDatabase:
     def __init__(self):
@@ -46,19 +47,19 @@ class EmployeeDatabase:
         payroll_policy = self.payroll.get_policy(id)
         return Employee(id, name, address, employee_role, payroll_policy)
 
-class Employee:
+class Employee(AsDictionaryMixin):
     def __init__(self, id, name, address, employee_role, payroll_policy):
         self.id = id
         self.name = name
         self.address = address
-        self.role = employee_role
-        self.payroll = payroll_policy
+        self._role = employee_role
+        self._payroll = payroll_policy
     
     def work(self, hours):
         # duties = self.role.r_work(hours)
         print(f'Employee {self.id} - {self.name}:')
         # print(f'-{duties}')
-        self.role.work(hours)
+        self.role._work(hours)
         # print(hours)
         print('')
         return self.payroll.track_work(hours)
