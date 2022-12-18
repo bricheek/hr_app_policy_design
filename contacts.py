@@ -1,4 +1,6 @@
-class AddressBook:
+from representations import AsDictionaryMixin
+
+class _AddressBook:
     def __init__(self):
         self._employee_addresses= {
             1 : Address('123 Main St', 'Dover', 'NH', '03820'),
@@ -14,13 +16,13 @@ class AddressBook:
             raise ValueError(employee_id)
         return address
 
-class Address:
+class Address(AsDictionaryMixin):
     def __init__(self, street, city, state, zipcode, street2 = ''):
         self.street = street
+        self.street2 = street2
         self.city = city
         self.state = state
         self.zipcode = zipcode
-        self.street2 = street2
 
     def __str__(self):
         lines = [self.street]
@@ -29,4 +31,8 @@ class Address:
         lines.append(f'{self.city}, {self.state} {self.zipcode}')
         return '\n'.join(lines)
 
-    
+_address_book = _AddressBook()
+
+def get_employee_address(employee_id):
+    return _address_book.get_employee_address(employee_id)
+

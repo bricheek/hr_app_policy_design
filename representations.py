@@ -2,9 +2,10 @@ class AsDictionaryMixin:
     def to_dict(self):
         return {
             self._represent(value)
-            for prop, value in self.__dict__.items():
+            for prop, value in self.__dict__.items()
                 if not self._is_internal(prop)
         }
+        
 def _represent(self, value):
     if isinstance(value, object):
         if hasattr(value, 'to_dict'):
