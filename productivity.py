@@ -1,5 +1,5 @@
 
-class ProductivitySystem:
+class _ProductivitySystem:
     def __init__(self):
         self._roles = {
             'manager': ManagerRole,
@@ -23,16 +23,24 @@ class ProductivitySystem:
         
 class ManagerRole:
     def work(self, hours):
-        print(f'-screams and yells for {hours} hours.')
+        return (f'-screams and yells for {hours} hours.')
 
 class SecretaryRole:
     def work(self, hours):
-        print(f'-spends {hours} hours doing paperwork.')
+        return (f'-spends {hours} hours doing paperwork.')
 
 class SalesRole:
     def work(self, hours):
-        print(f'-spends {hours} hours on the phone.')
+        return (f'-spends {hours} hours on the phone.')
 
 class FactoryRole:
     def work(self, hours):
-        print(f'-makes gadgets for {hours} hours.')
+        return (f'-makes gadgets for {hours} hours.')
+
+_productivitysystem = _ProductivitySystem()
+
+def get_role(role_id):
+    return _ProductivitySystem.get_role(role_id)
+
+def track(employees, hours):
+    _productivitysystem.track(employees, hours)
