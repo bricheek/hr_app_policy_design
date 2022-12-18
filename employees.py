@@ -1,4 +1,3 @@
-
 from productivity import get_role
 from hr import get_policy
 from contacts import get_employee_address
@@ -6,36 +5,36 @@ from representations import AsDictionaryMixin
 
 class _EmployeeDatabase:
     def __init__(self):
-        self.employees = {
-        1: {
-            'name': 'Mary Poppins',
-            'role': 'manager',
-        },
-        2:{
-            'name': 'John Smith',
-            'role': 'secretary',
-        },
-        3: {
-            'name': 'Kevin Bacon',
-            'role': 'sales',
-        },
-        4:{
-            'name': 'Jane Doe',
-            'role': 'factory',
-        },
-        5: {
-            'name': 'Robin Williams',
-            'role': 'secretary',
-        },
+        self._employees = {
+            1: {
+                'name': 'Mary Poppins',
+                'role': 'manager'
+            },
+            2: {
+                'name': 'John Smith',
+                'role': 'secretary'
+            },
+            3: {
+                'name': 'Kevin Bacon',
+                'role': 'sales'
+            },
+            4: {
+                'name': 'Jane Doe',
+                'role': 'factory'
+            },
+            5: {
+                'name': 'Robin Williams',
+                'role': 'secretary'
+            }
         }
 
     def employees(self):
         return [Employee(id_) for id_ in sorted(self._employees)]
 
-    def get_employee(self, employee_id):
+    def get_employee_info(self, employee_id):
         info = self._employees.get(employee_id)
         if not info:
-            raise ValueError('invalid employee id')
+            raise ValueError('invalid employee_id')
         return info
 
 class Employee(AsDictionaryMixin):
@@ -43,21 +42,18 @@ class Employee(AsDictionaryMixin):
         self.id = id
         info = employee_database.get_employee_info(self.id)
         self.name = info.get('name')
-        self.address = get_employee_address(self, self.id)
+        self.address = get_employee_address(self.id)
         self._role = get_role(info.get('role'))
         self._payroll = get_policy(self.id)
 
-    
     def work(self, hours):
         duties = self._role.work(hours)
         print(f'Employee {self.id} - {self.name}:')
-        print(f'-{duties}')
-        # self._role.work(hours)
+        print(f'- {duties}')
         print('')
         self._payroll.track_work(hours)
-    
+
     def calculate_payroll(self):
         return self._payroll.calculate_payroll()
 
 employee_database = _EmployeeDatabase()
-    
